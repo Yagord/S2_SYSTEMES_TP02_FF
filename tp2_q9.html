@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>tp2_q9.c</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Monospaced}
+pre {color: #000000; background-color: #ffffff; font-family: Monospaced}
+table {color: #000000; background-color: #e9e8e2; font-family: Monospaced}
+.ST0 {color: #009b00; background-color: #e9eff8}
+.highlight-caret-row {background-color: #e9eff8}
+.ST2 {font-family: Monospaced; font-weight: bold}
+.preprocessor {color: #009b00}
+.comment {color: #969696}
+.literal {color: #0000e6}
+.pragma-omp-keyword-directive {color: #2e92c7}
+.ST1 {color: #ce7b00; background-color: #e9eff8}
+.string {color: #ce7b00}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">C:\Users\Jean-Claude\Desktop\IUT\S2\ARCHITECTURE DES SYSTEMES\TP\TP02_FF\tp2_q9.c</td></tr></table>
+<pre>
+ 1 <span class="ST0">#</span><span class="ST0">include</span> <span class="ST1">&quot;iq.h&quot;</span>
+ 2 <span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="string">&quot;it.h&quot;</span>
+ 3 <span class="preprocessor">#</span><span class="preprocessor">define</span> <span class="pragma-omp-keyword-directive">byte</span> <span class="literal">unsigned</span> <span class="literal">char</span>
+ 4 
+ 5 <span class="comment">/*</span> <span class="comment">variables</span> <span class="comment">globale</span> <span class="comment">*/</span>
+ 6 <span class="pragma-omp-keyword-directive">byte</span> *trisb = 0xf93 ;
+ 7 <span class="pragma-omp-keyword-directive">byte</span> *portb = 0xf81 ;
+ 8 <span class="pragma-omp-keyword-directive">byte</span> *trisd = 0xf95 ;
+ 9 <span class="pragma-omp-keyword-directive">byte</span> *portd = 0xf83 ;
+10 <span class="pragma-omp-keyword-directive">byte</span> *trisc = 0xf94;
+11 <span class="pragma-omp-keyword-directive">byte</span> *portc = 0xf82;
+12 
+13 <span class="literal">int</span> i=0;
+14 <span class="literal">int</span> nb=0;
+15 <span class="literal">int</span> seconde = 0;
+16 <span class="literal">int</span> minute = 0;
+17 
+18 <span class="literal">void</span> <span class="ST2">affiche_7seg</span>(<span class="pragma-omp-keyword-directive">byte</span>, <span class="pragma-omp-keyword-directive">byte</span>);
+19 
+20 <span class="literal">void</span> <span class="ST2">affiche_7seg</span>(<span class="pragma-omp-keyword-directive">byte</span> val, <span class="pragma-omp-keyword-directive">byte</span> num_affiche)
+21 {
+22         <span class="pragma-omp-keyword-directive">byte</span> tab_7seg[]={0b00111111,0b00000110,0b01011011,0b01001111,0b01100110,0b01101101,0b01111101,
+23         0b00000111,0b01111111,0b01101111};
+24 
+25         <span class="literal">if</span>(num_affiche == 4)
+26         {
+27                 *portd = 0xf7;
+28         }
+29         <span class="literal">if</span>(num_affiche == 3)
+30         {
+31                 *portd = 0xfb;
+32         }
+33         <span class="literal">if</span>(num_affiche == 2)
+34         {
+35                 *portd = 0xfd;
+36         }
+37         <span class="literal">if</span>(num_affiche == 1)
+38         {
+39                 *portd = 0xfe;
+40         }
+41         *portb=tab_7seg[val];
+42         delayms(1);
+43 }
+44 
+45 <span class="literal">void</span> <span class="ST2">it_int0</span>()
+46 {
+47 }
+48 
+49 <span class="literal">void</span> <span class="ST2">it_int1</span>()
+50 {
+51 }
+52 
+53 <span class="comment">/*</span> <span class="comment">interruption</span> <span class="comment">timer</span> <span class="comment">*/</span>
+54 <span class="literal">void</span> <span class="ST2">it_tmr0</span>()
+55 {
+56         i++;
+57         affiche_7seg(seconde % 10, 1);
+58         affiche_7seg(seconde / 10, 2);
+59         affiche_7seg(minute % 10, 3);
+60         affiche_7seg(minute / 10, 4);
+61 
+62         <span class="literal">if</span> ((i % 6) == 0) seconde ++;
+63         <span class="literal">if</span> (seconde &gt;= 60)
+64         {
+65                 seconde = 0;
+66                 minute ++;
+67         }
+68         <span class="literal">if</span> (minute &gt;= 60)
+69         {
+70                 minute = 0;
+71         }
+72 }
+73 
+74 <span class="literal">void</span> <span class="ST2">main</span>(<span class="literal">void</span>)
+75 {
+76         *trisc = 0xff;
+77         *trisd = 0 ;
+78         *trisb = 0;
+79         *portb = 0;
+80         *portd = 0xfe;
+81         init_it_tmr0();
+82         <span class="literal">while</span>(1){
+83         }
+84 }
+85 <span class="comment">/**</span><span class="comment">*********************************************</span><span class="comment">*/</span>
+86 
+</pre></body>
+</html>

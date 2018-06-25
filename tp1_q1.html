@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>tp1_q1.c</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Monospaced}
+pre {color: #000000; background-color: #ffffff; font-family: Monospaced}
+table {color: #000000; background-color: #e9e8e2; font-family: Monospaced}
+.ST0 {color: #969696; background-color: #e9eff8}
+.ST1 {font-family: Monospaced; font-weight: bold}
+.ST2 {color: #969696; font-family: Monospaced; font-weight: bold}
+.preprocessor {color: #009b00}
+.comment {color: #969696}
+.literal {color: #0000e6}
+.pragma-omp-keyword-directive {color: #2e92c7}
+.string {color: #ce7b00}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">C:\Users\Jean-Claude\Desktop\IUT\S2\ARCHITECTURE DES SYSTEMES\TP\TP02_FF\tp1_q1.c</td></tr></table>
+<pre>
+ 1 <span class="ST0">/**</span><span class="ST0">*****************************************</span><span class="ST0">*/</span>
+ 2 <span class="preprocessor">#</span><span class="preprocessor">include</span> <span class="string">&quot;iq.h&quot;</span>
+ 3 <span class="preprocessor">#</span><span class="preprocessor">define</span> <span class="pragma-omp-keyword-directive">byte</span> <span class="literal">unsigned</span> <span class="literal">char</span>
+ 4 
+ 5 <span class="pragma-omp-keyword-directive">byte</span> *trisb = 0xf93 ;
+ 6 <span class="pragma-omp-keyword-directive">byte</span> *portb = 0xf81 ;
+ 7 <span class="pragma-omp-keyword-directive">byte</span> *trisd = 0xf95 ;
+ 8 <span class="pragma-omp-keyword-directive">byte</span> *portd = 0xf83 ;
+ 9 
+10 <span class="literal">void</span> <span class="ST1">affiche_7seg</span>(<span class="pragma-omp-keyword-directive">byte</span> val)
+11 {
+12     <span class="pragma-omp-keyword-directive">byte</span> tab_7seg[]={0b00111111,0b00000110,0b01011011,0b01001111,0b01100110,0b01101101,
+13     0b01111101,0b00000111,0b01111111,0b01101111};
+14     *portd=tab_7seg[val];
+15 }
+16 
+17 <span class="literal">int</span> <span class="ST1">test_plus</span>()
+18 {
+19     <span class="literal">return</span> (*portb &amp; 0x01);
+20 }
+21 
+22 <span class="literal">void</span> <span class="ST1">main</span>(<span class="literal">void</span>)
+23 {
+24     <span class="literal">int</span> i=0;
+25     *trisd = 0 ;
+26     *trisb = 0xff;
+27     affiche_7seg(i);
+28     <span class="comment">//</span><span class="comment">for</span><span class="comment">(</span><span class="comment">i</span><span class="comment">=0;</span><span class="comment">i</span><span class="ST2">&lt;4;i++)</span>
+29     <span class="literal">while</span>(1){
+30         <span class="literal">while</span> (test_plus());
+31         <span class="literal">while</span> (! test_plus());
+32         <span class="literal">if</span> (i &lt; 9) i++;
+33         <span class="literal">else</span> i=0;
+34         affiche_7seg(i);
+35     }
+36     <span class="literal">while</span>(1);
+37 }
+38 <span class="comment">/**</span><span class="comment">*********************************************</span><span class="comment">*/</span>
+39 
+</pre></body>
+</html>
